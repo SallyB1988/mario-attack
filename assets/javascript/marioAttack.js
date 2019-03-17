@@ -77,12 +77,18 @@ const initializePlayers = () => {
 
 // =====  JQUERY Start --- the following is the same as $(document).ready(function() {})
 $(function() {
-  // disable player clicks until start button is clicked
-  $("#player-box").css('pointer-events', 'none'); // disable
-
-  initializePlayers();
-  console.log(players);
-
+ // disable player clicks until start button is clicked
+ $("#player-box").css('pointer-events', 'none'); // disable
+  
+ // Function that starts the game running
+ function runGame() {
+   $("#player-box").css('pointer-events', 'auto'); // enable
+   $("#disp-msg").text("select character");
+ }
+ 
+  /**
+ * Creates clickable images and puts them in the Player selection box
+ */
   const createPlayers = () => {
     var $playerArea = $("#player-box");
     $playerArea.empty();
@@ -92,6 +98,35 @@ $(function() {
     }
   }
 
+  const attack = () => {
+    console.log('hi-YA!');
+    // reduce health of opponent by players counterattack value
+    opponentCharacter.health -= playerCharacter.attackPower;
+    playerCharacter.attackPower += playerCharacter.attackIncrease;
+    playerCharacter.health -=  opponentCharacter.attackPower;
+    $("#player-health").text(playerCharacter.health);
+    $("#opponent-health").text(opponentCharacter.health);
+    checkIfWin();
+  }
+  
+  const checkIfWin = () => {
+    if ( playerCharacter.health <= 0 ) {
+      loseRound();
+    } else if ( opponentCharacter.health <= 0) {
+      winRound();
+    }
+  }
+
+  const winRound = () => {
+    $("#disp-msg").text("You Won the round \n Pick a new opponent");
+    // pick new character
+  }
+
+  const loseRound = () => {
+    $("#disp-msg").text("You Lost");
+  }
+
+
   // ===== Jewel click ===================
   // Use the last character(s) of id name to get the index to use for 
   // the jewels array.  All id names begin with 'jewel-'
@@ -99,39 +134,46 @@ $(function() {
     var index = e.target.id.slice(7);
     console.log(index);
     console.log(playerCharacter);
-
+    
     if (playerCharacter === null) {
       playerCharacter =  players[index];
+      $("#player-name").text(playerCharacter.name);
+      $("#player-picture").html(`<img class="p2 player-image" src=${playerCharacter.image} >`);
+      $("#player-health").text(playerCharacter.health);
       $(`#player-${index}`).remove();
+      $("#disp-msg").text("select opponent");
+
     } else if (opponentCharacter === null) {
       opponentCharacter = players[index];
-      $(`#player-${index}`).remove();
-    }
-    console.log('player: ' + playerCharacter.name);
-    console.log('opponent: ' + opponentCharacter.name);
+      $("#opponent-name").text(opponentCharacter.name);
+      $("#opponent-picture").html(`<img class="p2 player-image" src=${opponentCharacter.image} >`);
+      $("#opponent-health").text(opponentCharacter.health);
 
+      $(`#player-${index}`).remove();
+      $("#disp-msg").text("let the battle begin!");
+      var $visibleButton = $("#btn-attack").attr("class").replace("invisible","visible");
+      $("#btn-attack").attr("class", $visibleButton);
+      $("#btn-attack").click(attack);
+    }
+    
     // If both players have been chosen, disable the remaining characters
     if (playerCharacter  != null && opponentCharacter != null) {
       $("#player-box").css('pointer-events', 'none'); // disable
     }
   })
-
-
-  // PROBABLY SHOULD HAVE A CLICK BUTTON TO START GAME....
-  const runGame = () => {
-    $("#player-box").css('pointer-events', 'auto'); // enable
-    $("#disp-msg").html("<h1>CHOOSE YOUR CHARACTER</h1>");
-   
-  }
-
-
-  // START THE GAME
-  createPlayers();
-  runGame();
   
+
+  // ===== BEGIN GAME ====================
+  // Add onclick function to button to start the game
+  createPlayers();
+  initializePlayers();
+  runGame();
+  console.log(players);
+  
+    
 })
 
 
-  // THE FOLLOWING LINES WILL DISABLE/ENBLE THE CLICKABLE PLAYER-BOX
-    // $("#player-box").css('pointer-events', 'none'); // disable
-    // $("#player-box").css('pointer-events', 'auto'); // enable
+// THE FOLLOWING LINES WILL DISABLE/ENBLE THE CLICKABLE PLAYER-BOX
+// $("#player-box").css('pointer-events', 'none'); // disable
+// $("#player-box").css('pointer-events', 'auto'); // enable

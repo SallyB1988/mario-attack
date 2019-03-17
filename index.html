@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./assets/javascript/marioAttack.js"></script>
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="./assets/css/style.css">
@@ -19,16 +20,25 @@
       <div id="player-box" class="col-md-10 col-sm-12 "></div>
     </div>
     <div class="row">
-      <div class="col-md-4 col-sm-12">YOU</div>
-      <div class="col-md-4 col-sm-12">
-        <div id="disp-msg"></div>
-        <div id="btn-begin">BUTTON</div>
+      <div id="selected-player" class="col-md-4 col-sm-12 mt-5">
+        <div id="player-name" class="text-center player-info"></div>
+        <div id="player-picture" class="player-image"></div>
+        <div id="player-health" class="text-center player-info"></div>
       </div>
-      <div class="col-md-4 col-sm-12">OPPONENT</div>
+
+      <div id="msg-box" class="col-md-4 col-sm-12">
+        <p id="disp-msg" class="text-center mt-5"></p>
+        <button id="btn-attack" class="btn btn-primary btn-lg d-block mx-auto invisible btn-begin" >ATTACK</button>
+      </div>
+
+      <div id="selected-opponent" class="col-md-4 col-sm-12 mt-5">
+        <div id="opponent-name" class="text-center player-info"></div>
+        <div id="opponent-picture" class="player-image"></div>
+        <div id="opponent-health" class="text-center player-info"></div>
+      </div>
     </div>
   </div>
 
   <!-- SCRIPTS -->
-  <script type="text/javascript" src="./assets/javascript/marioAttack.js"></script>
 </body>
 </html>
