@@ -1,5 +1,5 @@
 body {
-  background-image: url("../images/background1.jpg");
+  background-image: url("../images/bg2.jpg");
   background-size: cover;
   min-width: 350px;
   color: black;
@@ -7,14 +7,12 @@ body {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
-
 .score-display {
   height: 70px;
 }
 
 #instructions, .instructions {
   font-size: 24px;
-  /* font-weight: bold; */
   text-align: justify;
   background-color: #4b9ee27e;
 }
@@ -24,14 +22,12 @@ body {
   text-transform: uppercase;
 }
 
+#msg-box {
+  height: 380px;
+}
 
 .game-display {
   background-color: rgba(128, 18, 201, 0.808);
-}
-
-.game-data {
-  background-color: rgba(78, 194, 55, 0.664);
-  
 }
 
 .player-info {
@@ -62,7 +58,6 @@ body {
   background-color: #4b9ee2;
   height: 180px;
   width: 130px;
-  /* flex-grow: 1; */
 }
 
 .player-frame-image {

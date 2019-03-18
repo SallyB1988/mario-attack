@@ -5,7 +5,7 @@ const players = [
     health: 0,
     attackIncrease: 0,
     attackPower: 0,
-    soundId: 'mario-audio'
+    sound: () => mario.play(),
   },
   {
     name: 'Koopa',
@@ -13,8 +13,7 @@ const players = [
     health: 0,
     attackIncrease: 0,
     attackPower: 0,
-    soundId: 'koopa-audio'
-
+    sound: () => koopa.play(),
   },
   {
     name: 'Daisy',
@@ -22,8 +21,7 @@ const players = [
     health: 0,
     attackIncrease: 0,
     attackPower: 0,
-    soundId: 'daisy-audio'
-
+    sound: () => daisy.play(),
   },
   {
     name: 'Bowser',
@@ -31,8 +29,7 @@ const players = [
     health: 0,
     attackIncrease: 0,
     attackPower: 0,
-    soundId: 'bowser-audio'
-
+    sound: () => bowser.play(),
   },
   {
     name: 'Wario',
@@ -40,28 +37,34 @@ const players = [
     health: 0,
     attackIncrease: 0,
     attackPower: 0,
-    soundId: 'wario-audio'
-
+    sound: () => wario.play(),
   },
-  {
-    name: 'Yoshi',
-    image: './assets/images/yoshi.png',
-    health: 0,
-    attackIncrease: 0,
-    attackPower: 0,
-    soundId: 'yoshi-audio'
-
-  },
+  // {
+  //   name: 'Yoshi',
+  //   image: './assets/images/yoshi.png',
+  //   health: 0,
+  //   attackIncrease: 0,
+  //   attackPower: 0,
+  //   sound: () => yoshi.play(),
+  // },
   {
     name: 'Waluigi',
     image: './assets/images/waluigi.png',
     health: 0,
     attackIncrease: 0,
     attackPower: 0,
-    soundId: 'waluigi-audio'
-  }
-
+    sound: () => waluigi.play(),
+  },
 ]
+
+var mario = new Audio("./assets/sounds/mario.wav");
+var bowser = new Audio("./assets/sounds/bowser.wav");
+var koopa = new Audio("./assets/sounds/koopa.wav");
+var daisy = new Audio("./assets/sounds/daisy.wav");
+var wario = new Audio("./assets/sounds/wario.wav");
+var yoshi = new Audio("./assets/sounds/yoshi.wav");
+var waluigi = new Audio("./assets/sounds/waluigi.wav");
+
 // ===== Variables =======================
 var playerCharacter = null
 var opponentCharacter = null
@@ -136,27 +139,28 @@ $(function () {
    * Creates clickable images and puts them in the Player selection box
    */
   const createPlayers = () => {
-    var $playerArea = $('#player-box')
+    var $playerArea = $('#player-box');
     $playerArea.empty()
     for (var i = 0; i < players.length; i++) {
-      playerInFrame(i)
+      playerInFrame(i);
     }
   }
 
   // This is a battle between two characters.
   // Reduce health of opponent by players counterattack value.
   const attack = () => {
+    var $results = $('#results')
+    $results.empty()    // clear status area
+    // attack opponent
     opponentCharacter.health -= playerCharacter.attackPower
+    $('#opponent-health').text(opponentCharacter.health)
+    $results.append(`<p class="text-center attack-info">${opponentCharacter.name} lost ${playerCharacter.attackPower} health points</p>`)
     checkIfWin()
+    // opponent attacks back
     playerCharacter.attackPower += playerCharacter.attackIncrease
     playerCharacter.health -= opponentCharacter.attackPower
     $('#player-health').text(playerCharacter.health)
-    $('#opponent-health').text(opponentCharacter.health)
-    var $results = $('#results')
-    $results.empty()
     $results.append(`<p class="text-center attack-info"> ${playerCharacter.name} lost ${opponentCharacter.attackPower} health points</p>`)
-    $results.append(`<p class="text-center attack-info">${opponentCharacter.name} lost ${playerCharacter.attackPower} health points</p>`)
-
     checkIfWin()
   }
 
@@ -186,6 +190,7 @@ $(function () {
     var $visibleButton = $('#btn-attack').attr('class').replace('visible', 'invisible')
     $('#btn-attack').attr('class', $visibleButton)
     $('#disp-msg').html(`<p>You Won the round </p><p>Pick opponent #${numBattles}</p>`)
+    $('#results').empty();
     opponentCharacter = null
     // pick new character
     $('#player-box').css('pointer-events', 'auto') // enable
@@ -202,9 +207,10 @@ $(function () {
       default:
         console.log('Error in endGame')
     }
+    $('#results').empty();
     // put restart button inside the button-box
     $('#button-box').empty()
-    $('#button-box').append(`<button id="btn-restart" class="btn btn-success btn-lg d-block mx-auto visible btn-begin" >PLAY GAME</button>`)
+    $('#button-box').append(`<button id="btn-restart" class="btn btn-success btn-lg d-block mx-auto visible btn-begin" >PLAY AGAIN</button>`)
     // assign restart function to the button
     $('#btn-restart').click(restart)
     playerCharacter = null
@@ -229,8 +235,8 @@ $(function () {
     var index = e.target.id.slice(7)
     if (playerCharacter === null) {
       playerCharacter = players[index]
-      let sound = document.getElementById(`${playerCharacter.soundId}`)
-      sound.play()
+      // let sound = document.getElementById(`${playerCharacter.soundId}`)
+      playerCharacter.sound();
 
       $('#player-name').text(playerCharacter.name)
       $('#player-picture').html(`<img class="p2 player-image" src=${playerCharacter.image} >`)
@@ -239,14 +245,14 @@ $(function () {
       $('#disp-msg').text(`select opponent #${numBattles}`)
     } else if (opponentCharacter === null) {
       opponentCharacter = players[index]
-      let sound = document.getElementById(`${opponentCharacter.soundId}`)
-      sound.play()
+      // let sound = document.getElementById(`${opponentCharacter.soundId}`)
+      opponentCharacter.sound();
       $('#opponent-name').text(opponentCharacter.name)
       $('#opponent-picture').html(`<img class="p2 player-image" src=${opponentCharacter.image} >`)
       $('#opponent-health').text(opponentCharacter.health)
 
       $(`#player-${index}`).remove()
-      $('#disp-msg').text('let the battle begin!')
+      $('#disp-msg').text('Time to battle!')
       // put attack button inside the button-box
       $('#button-box').empty()
       $('#button-box').append(`<button id="btn-attack" class="btn btn-primary btn-lg d-block mx-auto visible btn-begin" >ATTACK</button>`)
