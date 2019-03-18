@@ -34,7 +34,7 @@ const players = [
   new Player('Daisy', './assets/images/daisy.png', daisy),
   new Player('Bowser', './assets/images/bowser.png', bowser),
   new Player('Wario', './assets/images/wario.png', wario),
-  new Player('Waluigi', './assets/images/waluigi.png', waluigi),
+  new Player('Waluigi', './assets/images/waluigi1.png', waluigi),
   // new Player('Yoshi', './assets/images/yoshi.png', yoshi),
 ]
 
