@@ -16,33 +16,33 @@ const players = [
     soundId: "koopa-audio",
 
   },
-  {
-    name: "Daisy",
-    image: "./assets/images/daisy.png",
-    health: 0,
-    attackIncrease: 0,
-    attackPower:  0,
-    soundId: "daisy-audio",
+  // {
+  //   name: "Daisy",
+  //   image: "./assets/images/daisy.png",
+  //   health: 0,
+  //   attackIncrease: 0,
+  //   attackPower:  0,
+  //   soundId: "daisy-audio",
 
-  },
-  {
-    name: "Bowser",
-    image: "./assets/images/bowser.png",
-    health: 0,
-    attackIncrease: 0,
-    attackPower:  0,
-    soundId: "bowser-audio",
+  // },
+  // {
+  //   name: "Bowser",
+  //   image: "./assets/images/bowser.png",
+  //   health: 0,
+  //   attackIncrease: 0,
+  //   attackPower:  0,
+  //   soundId: "bowser-audio",
 
-  },
-  {
-    name: "Wario",
-    image: "./assets/images/wario.png",
-    health: 0,
-    attackIncrease: 0,
-    attackPower:  0,
-    soundId: "wario-audio",
+  // },
+  // {
+  //   name: "Wario",
+  //   image: "./assets/images/wario.png",
+  //   health: 0,
+  //   attackIncrease: 0,
+  //   attackPower:  0,
+  //   soundId: "wario-audio",
 
-  },
+  // },
   {
     name: "Yoshi",
     image: "./assets/images/yoshi.png",
@@ -100,7 +100,7 @@ const players = [
    */
   const initializePlayers = () => {
     players.forEach((p) => {
-      p.health = getRandomNumber(100, 200);
+      p.health = getRandomNumber(10, 20)*10;
       p.attackIncrease = getRandomNumber(3,6);
       p.attackPower = getRandomNumber(10, 25);
     })
@@ -146,22 +146,12 @@ const players = [
     }
     
     const attack = () => {
-      if (playerCharacter === null && opponentCharacter === null) {
-        // if both players are null, then this is really a request to play again
-        var $visibleButton = $("#btn-attack");
-        var hide = $visibleButton.attr("class").replace("visible","invisible");
-        console.log(hide);
-        $visibleButton.text("Attack")
-        $visibleButton.attr("class", hide);
-
-        clearAllRegions();
-        console.log('numBattles is '+numBattles);
-        startPlaying();
-      } else {
         console.log('here' + opponentCharacter);
         // This situation is really a battle between two characters
         // reduce health of opponent by players counterattack value
         opponentCharacter.health -= playerCharacter.attackPower;
+        console.log(' player check');
+        checkIfWin();
         playerCharacter.attackPower += playerCharacter.attackIncrease;
         playerCharacter.health -=  opponentCharacter.attackPower;
         $("#player-health").text(playerCharacter.health);
@@ -170,22 +160,30 @@ const players = [
         $results.empty();
         $results.append(`<p class="text-center attack-info"> ${playerCharacter.name} lost ${opponentCharacter.attackPower} health points</p>`);
         $results.append(`<p class="text-center attack-info">${opponentCharacter.name} lost ${playerCharacter.attackPower} health points</p>`);
+
+        console.log(' opponent check')
         checkIfWin();
-      }
     }
-    
+
+
+    const restart = () => {
+        // hide restart button and make attack button visible
+        var $restartbtn = $("#btn-restart").attr("class").replace("visible","invisible");
+        $("#btn-restart").attr("class", $restartbtn);
+        $("#btn-attack").click(startPlaying);
+
+        var $attackbtn = $("#btn-attack").attr("class").replace("invisible","visible");
+        $("#btn-attack").attr("class", $attackbtn);
+
+        clearAllRegions();
+        console.log('numBattles is '+numBattles);
+        startPlaying();
+    }
+
     const checkIfWin = () => {
       if ( playerCharacter.health <= 0 ) {
-        console.log('you are losing')
-        if ( opponentCharacter.health <=0) {
-          console.log('tie');
-          endGame(-1);
-        } else {
-          console.log('you lost completely');
           endGame(0);
-        }
       } else if ( opponentCharacter.health <= 0) {
-        console.log('numBattles is ' + numBattles);
         if (numBattles === maxBattles) {
           endGame(1);
         } else {
@@ -203,14 +201,11 @@ const players = [
       opponentCharacter = null;
       // pick new character
       $("#player-box").css('pointer-events', 'auto'); // enable
+      console.log('player box should be clickable');
     }
     
     const endGame = (status) => {
       switch (status) {
-        case -1: // both dead
-        console.log('both dead');
-          $("#disp-msg").html("<p>Game over</p><p>A tragedy has occurred. You are both dead!</p>");
-          break;
         case 0:  // lose game
         console.log('you lost')
           $("#disp-msg").html("<p>Game over</p><p>You lost!</p>");
@@ -224,7 +219,8 @@ const players = [
       }
       playerCharacter = null;
       opponentCharacter = null;
-      $("#btn-attack").text("Play Again");
+      restart();
+
     }  
     
       const clearAllRegions = () => {
@@ -263,6 +259,7 @@ const players = [
 
     $(`#player-${index}`).remove();
     $("#disp-msg").text("let the battle begin!");
+    // make attack button visible
     var $visibleButton = $("#btn-attack").attr("class").replace("invisible","visible");
     $("#btn-attack").attr("class", $visibleButton);
     $("#btn-attack").click(attack);
