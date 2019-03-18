@@ -1,62 +1,5 @@
-const players = [
-  {
-    name: 'Mario',
-    image: './assets/images/mario.png',
-    health: 0,
-    attackIncrease: 0,
-    attackPower: 0,
-    sound: () => mario.play(),
-  },
-  {
-    name: 'Koopa',
-    image: './assets/images/koopa.png',
-    health: 0,
-    attackIncrease: 0,
-    attackPower: 0,
-    sound: () => koopa.play(),
-  },
-  {
-    name: 'Daisy',
-    image: './assets/images/daisy.png',
-    health: 0,
-    attackIncrease: 0,
-    attackPower: 0,
-    sound: () => daisy.play(),
-  },
-  {
-    name: 'Bowser',
-    image: './assets/images/bowser.png',
-    health: 0,
-    attackIncrease: 0,
-    attackPower: 0,
-    sound: () => bowser.play(),
-  },
-  {
-    name: 'Wario',
-    image: './assets/images/wario.png',
-    health: 0,
-    attackIncrease: 0,
-    attackPower: 0,
-    sound: () => wario.play(),
-  },
-  // {
-  //   name: 'Yoshi',
-  //   image: './assets/images/yoshi.png',
-  //   health: 0,
-  //   attackIncrease: 0,
-  //   attackPower: 0,
-  //   sound: () => yoshi.play(),
-  // },
-  {
-    name: 'Waluigi',
-    image: './assets/images/waluigi.png',
-    health: 0,
-    attackIncrease: 0,
-    attackPower: 0,
-    sound: () => waluigi.play(),
-  },
-]
 
+// ===== Variables =======================
 var mario = new Audio("./assets/sounds/mario.wav");
 var bowser = new Audio("./assets/sounds/bowser.wav");
 var koopa = new Audio("./assets/sounds/koopa.wav");
@@ -65,7 +8,6 @@ var wario = new Audio("./assets/sounds/wario.wav");
 var yoshi = new Audio("./assets/sounds/yoshi.wav");
 var waluigi = new Audio("./assets/sounds/waluigi.wav");
 
-// ===== Variables =======================
 var playerCharacter = null
 var opponentCharacter = null
 var gamesWon = 0
@@ -73,6 +15,28 @@ var gamesLost = 0
 var maxJewels = 0
 var maxBattles = 3
 var numBattles = 1
+
+// ====== Class ============================
+class Player {
+  constructor(name, image, audio) {
+    this.name = name;
+    this.image = image;
+    this.health = 0;
+    this.attackIncrease = 0;
+    this.attackPower = 0;
+    this.sound = () => audio.play()
+  }
+}
+
+const players = [
+  new Player('Mario', './assets/images/mario.png', mario),
+  new Player('Koopa', './assets/images/koopa.png', koopa),
+  new Player('Daisy', './assets/images/daisy.png', daisy),
+  new Player('Bowser', './assets/images/bowser.png', bowser),
+  new Player('Wario', './assets/images/wario.png', wario),
+  new Player('Waluigi', './assets/images/waluigi.png', waluigi),
+  // new Player('Yoshi', './assets/images/yoshi.png', yoshi),
+]
 
 /**
  * Resets scores when game is restarted
@@ -107,7 +71,6 @@ const initializePlayers = () => {
     p.attackPower = getRandomNumber(10, 25)
   })
 }
-
 
 // =====  JQUERY Start --- the following line is the same as $(document).ready(function() {})
 $(function () {
