@@ -1,10 +1,10 @@
 body {
-  background-image: url("../images/white-waves.png");
+  background-image: url("../images/background1.jpg");
   background-size: cover;
   min-width: 350px;
   color: black;
   margin-bottom: 20px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
 
@@ -12,18 +12,18 @@ body {
   height: 70px;
 }
 
-.instructions {
-  font-size: 22px;
-  font-weight: 600;
+#instructions, .instructions {
+  font-size: 24px;
+  /* font-weight: bold; */
+  text-align: justify;
+  background-color: #1e54e9;
 }
 
 #disp-msg {
   font-size: 30px;
   text-transform: uppercase;
 }
-.instruction-box {
-  background-color: rgba(167, 36, 255, 0.87);
-}
+
 
 .game-display {
   background-color: rgba(128, 18, 201, 0.808);
@@ -34,9 +34,12 @@ body {
   
 }
 
-
 .player-info {
-  font-size: 16px;
+  font-size: 30px;
+}
+
+.attack-info {
+  font-size: 25px;
 }
 
 #title-img {
@@ -45,12 +48,27 @@ body {
 
 #player-box {
   display: flex;
-  flex-wrap: wrap;
-  border: 2px red solid;
+  justify-content: space-around;
+  border: 4px #1e54e9 solid;
 }
-  
+
+/* Styling for player inside frame */
+.player-frame {
+  background-color: #1e54e9;
+  height: 180px;
+  width: 180px;
+  /* flex-grow: 1; */
+}
+
+.player-frame-image {
+  width:  90px;
+  height: 90px;
+  margin: auto;
+  background-color: white;
+}
+
 .player-image {
-  width:  100px;
-  height: 100px;
+  width:  180px;
+  height: 180px;
   margin: auto;
 }
