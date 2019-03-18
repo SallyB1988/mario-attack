@@ -16,7 +16,7 @@ body {
   font-size: 24px;
   /* font-weight: bold; */
   text-align: justify;
-  background-color: #1e54e9;
+  background-color: #4b9ee27e;
 }
 
 #disp-msg {
@@ -48,15 +48,20 @@ body {
 
 #player-box {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
-  border: 4px #1e54e9 solid;
+  border: 4px #4b9ee2 solid;
+}
+
+#button-box {
+  height: 30px;
 }
 
 /* Styling for player inside frame */
 .player-frame {
-  background-color: #1e54e9;
+  background-color: #4b9ee2;
   height: 180px;
-  width: 180px;
+  width: 130px;
   /* flex-grow: 1; */
 }
 
